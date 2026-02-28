@@ -1,0 +1,30 @@
+version: '3.8'  # optional but good practice
+
+services:
+  mysqldb:
+    image: mysql:latest
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: pass              # CHANGE THIS to something stronger e.g. MyPass123!
+      MYSQL_DATABASE: timesheetdb
+    ports:
+      - "3306:3306"                          # optional (remove if no external access needed)
+    volumes:
+      - timesheetvol:/var/lib/mysql
+
+  timesheet:
+    depends_on:
+      - mysqldb
+    image: timesheet-medhedi19-3a:latest     # ← your image name here
+    restart: no
+    ports:
+      - "8082:8082"                          # host:container – app listens on 8082
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/timesheetdb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: pass       # must match MYSQL_ROOT_PASSWORD above
+    stdin_open: true
+    tty: true
+
+volumes:
+  timesheetvol:
