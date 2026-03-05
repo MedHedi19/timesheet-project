@@ -27,7 +27,17 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency> 
 
+		<!-- Actuator for metrics exposure -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
 
+<!-- Micrometer Prometheus registry -->
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-registry-prometheus</artifactId>
+</dependency>
 
 
 		<dependency>
